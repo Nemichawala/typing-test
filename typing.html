@@ -3,621 +3,519 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typing Speed Tester</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>TypeRiser - Typing Speed Tester</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            background-color: #d7dbdd;
+        }
+
+        body {
+            background: #d7dbdd;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: #d7dbdd;
+            padding: 1.5rem 2rem;
             display: flex;
-            flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 1rem;
-            box-sizing: border-box;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .header {
-            width: 100%;
-            background-color: #1a202c;
-            color: #ffffff;
-            padding: 1rem 0;
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            margin-left: 1.5rem;
+            text-decoration: none;
+            color: #1e3a8a;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #d7dbdd, #a3a8ab);
+            color: #1a1a1a;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1.5rem;
-            border-radius: 0.75rem;
+            padding: 5rem 2rem;
+            position: relative;
+            overflow: hidden;
         }
-        .container {
-            background-color: #ffffff;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            max-width: 900px;
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            flex-grow: 1;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" opacity="0.1"><path fill="%231a1a1a" d="M0 0h80v80H0z"/><path fill="%231a1a1a" d="M40 20a20 20 0 110 40 20 20 0 010-40z"/></svg>') repeat;
+            animation: subtleMove 20s linear infinite;
         }
-        .footer {
-            width: 100%;
-            background-color: #1a202c;
-            color: #ffffff;
-            padding: 1rem 0;
-            text-align: center;
-            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
-            margin-top: 1.5rem;
-            border-radius: 0.75rem;
+
+        @keyframes subtleMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 80px 80px; }
         }
-        .difficulty-selection {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
+
+        .hero h1, .hero p, .cta-button {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
             margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            animation-delay: 0.2s;
         }
-        .difficulty-button {
-            padding: 0.5rem 1.25rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-weight: 600;
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation-delay: 0.4s;
+        }
+
+        .cta-button {
+            background: #1e3a8a;
+            color: #d7dbdd;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            border: 2px solid transparent;
-            background-color: #e2e8f0;
-            color: #475569;
-        }
-        .difficulty-button:hover {
-            background-color: #cbd5e1;
-            transform: translateY(-1px);
-        }
-        .difficulty-button.active {
-            background-color: #3b82f6;
-            color: #ffffff;
-            border-color: #2563eb;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation-delay: 0.6s;
         }
 
-        .paragraph-display {
-            background-color: #e2e8f0;
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            background: #3b82f6;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typing Test Section */
+        .typing-test {
+            max-width: 900px;
+            margin: 3rem auto;
             padding: 1.5rem;
-            border-radius: 0.75rem;
-            font-size: 1.25rem;
-            line-height: 1.75;
-            text-align: left;
-            min-height: 150px;
-            overflow-y: auto;
-            max-height: 250px;
-            color: #334155;
-            user-select: none;
-            transition: background-color 0.3s ease-in-out;
-        }
-        .paragraph-display span {
-            transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out, border-bottom 0.1s ease-in-out;
-        }
-        .paragraph-display span.correct {
-            color: #16a34a;
-        }
-        .paragraph-display span.incorrect {
-            color: #dc2626;
-            background-color: #fee2e2;
-            border-bottom: 2px solid #dc2626;
-        }
-        .paragraph-display span.current {
-            background-color: #bfdbfe;
-            border-radius: 0.25rem;
-            padding: 0 2px;
-            animation: pulse 1.5s infinite alternate;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(1.05); opacity: 0.9; }
+            background: #d7dbdd;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        textarea {
+        .difficulty-selector {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #difficulty {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #1e3a8a;
+            background: #ebedef;
+        }
+
+        .generate-button {
+            background: #1e3a8a;
+            color: #d7dbdd;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .generate-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            background: #3b82f6;
+        }
+
+        #sample-text {
+            background: #ebedef;
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            word-wrap: break-word;
+            overflow: hidden;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #user-input {
             width: 100%;
-            padding: 1rem;
-            border: 2px solid #cbd5e1;
-            border-radius: 0.75rem;
-            font-size: 1.25rem;
-            line-height: 1.75;
-            outline: none;
-            resize: none;
             height: 120px;
-            box-sizing: border-box;
-            transition: border-color 0.2s ease-in-out;
-            color: #1e293b;
+            padding: 1.5rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            background: #ebedef;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            resize: none;
+            transition: box-shadow 0.3s ease;
         }
-        textarea:focus {
-            border-color: #3b82f6;
+
+        #user-input:focus {
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 0 0 3px rgba(30, 58, 138, 0.3);
         }
-        .stats-grid {
+
+        .results {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
-            margin-top: 1rem;
-        }
-        .stat-item {
-            background-color: #f8fafc;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: background-color 0.1s ease-in-out;
-        }
-        .stat-item.flash {
-            animation: statFlash 0.3s ease-out;
-        }
-        @keyframes statFlash {
-            0% { background-color: #bfdbfe; }
-            100% { background-color: #f8fafc; }
-        }
-        .stat-item h3 {
-            font-size: 1rem;
-            color: #475569;
-            margin-bottom: 0.5rem;
-        }
-        .stat-item p {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-        .button-group {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
             margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-        button {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
             font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        button.reset-button {
-            background-color: #3b82f6;
-            color: #ffffff;
-            border: none;
-        }
-        button.reset-button:hover {
-            background-color: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-        button.generate-button {
-            background-color: #10b981;
-            color: #ffffff;
-            border: none;
-        }
-        button.generate-button:hover {
-            background-color: #059669;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-        .message-box {
-            background-color: #dbeafe;
-            color: #1e40af;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            margin-top: 1rem;
-            font-size: 1rem;
-            font-weight: 500;
-            text-align: center;
-        }
-        .loading-spinner {
-            display: none;
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: #3b82f6;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 1rem auto;
-        }
-        .loading-spinner.show {
-            display: block;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
-        /* Responsive adjustments */
+        .results p {
+            background: #ebedef;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .error {
+            color: #dc2626;
+            background: #fee2e2;
+        }
+
+        .reset-button {
+            background: #1e3a8a;
+            color: #d7dbdd;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .reset-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            background: #3b82f6;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #a3a8ab;
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #1e3a8a;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, #d7dbdd, #a3a8ab);
+            color: #1a1a1a;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer a {
+            color: #1e3a8a;
+            text-decoration: none;
+            margin-left: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #3b82f6;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .header, .footer {
-                padding: 0.75rem 0;
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
             }
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            .footer p {
-                font-size: 0.8rem;
-            }
-            .container {
-                padding: 1.5rem;
+
+            nav {
+                display: flex;
                 gap: 1rem;
             }
-            .difficulty-selection {
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .typing-test {
+                margin: 2rem 1rem;
+            }
+
+            .difficulty-selector {
                 flex-direction: column;
-                gap: 0.5rem;
+                align-items: flex-start;
             }
-            .difficulty-button {
-                width: 100%;
-            }
-            .paragraph-display, textarea {
-                font-size: 1rem;
-                line-height: 1.5;
-            }
-            .paragraph-display {
-                min-height: 120px;
-                max-height: 200px;
-            }
-            textarea {
-                height: 100px;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .stat-item p {
-                font-size: 1.5rem;
-            }
-            button {
-                width: 100%;
-            }
-            .button-group {
+
+            footer {
                 flex-direction: column;
+                gap: 1rem;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1 class="text-3xl font-bold">Typing Speed Tester</h1>
-    </div>
+    <!-- Header -->
+    <header>
+        <div class="logo">TypeRiser</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+        </nav>
+    </header>
 
-    <div class="container">
-        <div class="difficulty-selection">
-            <button id="easy-button" class="difficulty-button active" data-difficulty="easy">Easy</button>
-            <button id="medium-button" class="difficulty-button" data-difficulty="medium">Medium</button>
-            <button id="hard-button" class="difficulty-button" data-difficulty="hard">Hard</button>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Master Your Typing Skills Today</h1>
+        <p>Challenge yourself with TypeRiser and elevate your speed and accuracy!</p>
+        <a href="#typing-test" class="cta-button">Get Started</a>
+    </section>
+
+    <!-- Typing Test Section -->
+    <section class="typing-test" id="typing-test">
+        <div class="difficulty-selector">
+            <label for="difficulty">Select Difficulty: </label>
+            <select id="difficulty" onchange="setSampleText()">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <button class="generate-button" onclick="setSampleText()">Generate New Paragraph</button>
         </div>
-
-        <div id="paragraph-display" class="paragraph-display">
-            Loading paragraph...
+        <div id="sample-text"></div>
+        <textarea id="user-input" placeholder="Start typing here..." onpaste="return false;"></textarea>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
         </div>
-
-        <textarea id="typing-input" class="typing-input" placeholder="Start typing here..." onpaste="return false;" autofocus></textarea>
-
-        <div class="stats-grid">
-            <div id="wpm-item" class="stat-item">
-                <h3>WPM</h3>
-                <p id="wpm-display">0</p>
-            </div>
-            <div id="accuracy-item" class="stat-item">
-                <h3>Accuracy</h3>
-                <p id="accuracy-display">0%</p>
-            </div>
-            <div id="correct-words-item" class="stat-item">
-                <h3>Correct Words</h3>
-                <p id="correct-words-display">0/0</p>
-            </div>
-            <div id="time-item" class="stat-item">
-                <h3>Time</h3>
-                <p id="time-display">0s</p>
-            </div>
+        <div class="results">
+            <p>WPM: <span id="wpm">0</span></p>
+            <p>Accuracy: <span id="accuracy">0%</span></p>
+            <p>Correct Words: <span id="correct-words">0</span> / <span id="total-words">0</span></p>
         </div>
+        <button class="reset-button" onclick="resetTest()">Reset Test</button>
+    </section>
 
-        <div class="button-group">
-            <button id="reset-button" class="reset-button">Reset Test</button>
-            <button id="generate-paragraph-button" class="generate-button">✨ Generate New Paragraph</button>
+    <!-- Footer -->
+    <footer>
+        <div>© 2025 TypeRiser. All rights reserved.</div>
+        <div>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
         </div>
-
-        <div id="message-box" class="message-box hidden">
-        </div>
-    </div>
-
-    <div class="footer">
-        <p class="text-sm">&copy; 2025 Typing Speed Tester. All rights reserved.</p>
-    </div>
+    </footer>
 
     <script>
-        // Paragraphs for different difficulty levels
-        const paragraphs = {
-            easy: [
-                "The cat sat on the mat. It was a sunny day.",
-                "Birds fly in the sky. They sing sweet songs.",
-                "I like to eat apples. Apples are red and green.",
-                "The dog ran fast. It played with a ball.",
-                "We live in a big house. It has many rooms."
-            ],
-            medium: [
-                "The quick brown fox jumps over the lazy dog. This sentence uses every letter of the alphabet.",
-                "Reading a good book can transport you to different worlds and introduce new ideas.",
-                "Technology has transformed how we live, work, and communicate globally.",
-                "Challenges are opportunities for growth; perseverance often leads to success.",
-                "Creativity is intelligence having fun; explore new hobbies and skills."
-            ],
-            hard: [
-                "In the labyrinth of human thought, complex ideas often intertwine, challenging conventional paradigms and fostering intellectual discourse amongst diverse perspectives.",
-                "The ephemeral beauty of a sunset, with its kaleidoscope of colors, evokes a profound sense of tranquility and introspection, reminding us of nature's grandeur.",
-                "Quantum entanglement, a perplexing phenomenon in physics, suggests that particles can instantaneously influence each other regardless of the distance separating them.",
-                "The intricate mechanisms of global economics are constantly fluctuating, influenced by geopolitical events, technological advancements, and shifting consumer demands.",
-                "Artificial intelligence, while promising immense advancements, also presents ethical dilemmas concerning autonomy, accountability, and the future of human labor."
-            ]
+        const sampleTextElement = document.getElementById('sample-text');
+        const userInputElement = document.getElementById('user-input');
+        const wpmElement = document.getElementById('wpm');
+        const accuracyElement = document.getElementById('accuracy');
+        const correctWordsElement = document.getElementById('correct-words');
+        const totalWordsElement = document.getElementById('total-words');
+        const progressElement = document.getElementById('progress');
+        const difficultyElement = document.getElementById('difficulty');
+
+        const sentenceFragments = {
+            easy: {
+                starters: ["The sun", "A dog", "The bird", "A child"],
+                actions: ["runs through", "jumps over", "flies above", "plays in"],
+                locations: ["the park.", "the field.", "the garden.", "the yard."],
+                extras: ["It is a bright day.", "The weather is warm.", "Everyone is happy.", "The sky is clear."]
+            },
+            medium: {
+                starters: ["Technology", "The economy", "Writers", "The forest"],
+                actions: ["advances in", "fluctuates in", "create in", "thrives in"],
+                locations: ["the digital world.", "the global market.", "the literary realm.", "the natural habitat."],
+                extras: ["Innovation drives progress.", "Trends shape outcomes.", "Stories inspire readers.", "Nature restores balance."]
+            },
+            hard: {
+                starters: ["Cryptographic algorithms", "Quantum mechanics", "Legislation", "Programmers"],
+                actions: ["secure in", "challenge in", "regulate in", "optimize in"],
+                locations: ["the cybersecurity domain.", "the theoretical field.", "the policy framework.", "the software ecosystem."],
+                extras: ["Privacy is paramount.", "Theories evolve rapidly.", "Compliance ensures stability.", "Efficiency boosts performance."]
+            }
         };
 
-        // DOM elements
-        const paragraphDisplay = document.getElementById('paragraph-display');
-        const typingInput = document.getElementById('typing-input');
-        const wpmDisplay = document.getElementById('wpm-display');
-        const accuracyDisplay = document.getElementById('accuracy-display');
-        const correctWordsDisplay = document.getElementById('correct-words-display');
-        const timeDisplay = document.getElementById('time-display');
-        const resetButton = document.getElementById('reset-button');
-        const messageBox = document.getElementById('message-box');
+        function generateParagraph(difficulty) {
+            const fragments = sentenceFragments[difficulty];
+            const sentences = [];
+            const sentenceCount = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : 5;
 
-        const easyButton = document.getElementById('easy-button');
-        const mediumButton = document.getElementById('medium-button');
-        const hardButton = document.getElementById('hard-button');
-        const difficultyButtons = [easyButton, mediumButton, hardButton];
+            for (let i = 0; i < sentenceCount; i++) {
+                const starter = fragments.starters[Math.floor(Math.random() * fragments.starters.length)];
+                const action = fragments.actions[Math.floor(Math.random() * fragments.actions.length)];
+                const location = fragments.locations[Math.floor(Math.random() * fragments.locations.length)];
+                const extra = fragments.extras[Math.floor(Math.random() * fragments.extras.length)];
+                sentences.push(`${starter} ${action} ${location} ${extra}`);
+            }
 
-        const generateParagraphButton = document.getElementById('generate-paragraph-button');
-        const loadingSpinner = document.createElement('div'); // Create spinner dynamically
-        loadingSpinner.classList.add('loading-spinner');
-        document.querySelector('.button-group').appendChild(loadingSpinner); // Append spinner to button group
+            return sentences.join(' ');
+        }
 
+        let startTime, sampleText, words, currentWordIndex = 0, correctWords = 0, totalChars = 0, correctChars = 0;
+        let isTyping = false;
 
-        // Test state variables
-        let currentParagraph = '';
-        let timerStartTime = 0;
-        let timerInterval;
-        let isTestStarted = false;
-        let totalCharactersTyped = 0;
-        let correctCharacters = 0;
-        let errorCount = 0;
-        let totalWordsInParagraph = 0;
-        let correctWordsCount = 0;
-        let currentDifficulty = 'easy'; // Default difficulty
+        function setSampleText() {
+            const difficulty = difficultyElement.value;
+            sampleText = generateParagraph(difficulty);
+            words = sampleText.split(' ');
+            totalWordsElement.textContent = words.length;
+            displayText();
+        }
 
-        // Function to initialize or reset the test
-        function initializeTest() {
-            // Select a random paragraph based on current difficulty
-            const selectedParagraphs = paragraphs[currentDifficulty];
-            currentParagraph = selectedParagraphs[Math.floor(Math.random() * selectedParagraphs.length)];
-            totalWordsInParagraph = currentParagraph.split(' ').length;
+        function displayText() {
+            let html = '';
+            const userInput = userInputElement.value;
+            const userWords = userInput.trim().split(' ');
+            let charIndex = 0;
 
-            // Display the paragraph with each character wrapped in a span
-            paragraphDisplay.innerHTML = currentParagraph
-                .split('')
-                .map((char) => `<span>${char}</span>`)
-                .join('');
-
-            // Reset input and stats
-            typingInput.value = '';
-            typingInput.disabled = false;
-            typingInput.focus();
-            wpmDisplay.textContent = '0';
-            accuracyDisplay.textContent = '0%';
-            correctWordsDisplay.textContent = '0/0';
-            timeDisplay.textContent = '0s';
-
-            // Reset state variables
-            timerStartTime = 0;
-            clearInterval(timerInterval);
-            isTestStarted = false;
-            totalCharactersTyped = 0;
-            correctCharacters = 0;
-            errorCount = 0;
-            correctWordsCount = 0;
-
-            // Hide message box
-            messageBox.classList.add('hidden');
-            messageBox.textContent = '';
-
-            // Reset styling of paragraph display
-            Array.from(paragraphDisplay.children).forEach(span => {
-                span.classList.remove('correct', 'incorrect', 'current');
+            words.forEach((word, i) => {
+                let wordHtml = '';
+                for (let j = 0; j < word.length; j++) {
+                    const userChar = userInput[charIndex] || '';
+                    const isCorrect = userChar === word[j];
+                    const className = userChar && !isCorrect ? 'error' : '';
+                    wordHtml += `<span class="${className}">${word[j]}</span>`;
+                    charIndex++;
+                }
+                if (i < words.length - 1) {
+                    const spaceChar = userInput[charIndex] || '';
+                    const spaceClass = spaceChar && spaceChar !== ' ' ? 'error' : '';
+                    wordHtml += `<span class="${spaceClass}"> </span>`;
+                    charIndex++;
+                }
+                html += wordHtml;
             });
-            if (paragraphDisplay.children.length > 0) {
-                paragraphDisplay.children[0].classList.add('current'); // Highlight first character
-            }
+
+            sampleTextElement.innerHTML = html;
+            updateProgress();
         }
 
-        // Function to start the timer
-        function startTimer() {
-            timerStartTime = performance.now();
-            timerInterval = setInterval(updateTimer, 1000); // Update every second
+        function updateProgress() {
+            const userInput = userInputElement.value;
+            const progress = (userInput.length / sampleText.length) * 100;
+            progressElement.style.width = `${Math.min(progress, 100)}%`;
         }
 
-        // Function to update the timer display
-        function updateTimer() {
-            const elapsedTime = Math.floor((performance.now() - timerStartTime) / 1000);
-            timeDisplay.textContent = `${elapsedTime}s`;
-        }
+        function calculateResults() {
+            const timeElapsed = (Date.now() - startTime) / 1000 / 60; // in minutes
+            const userInput = userInputElement.value.trim();
+            const userWords = userInput ? userInput.split(' ') : [];
+            correctWords = 0;
+            correctChars = 0;
+            totalChars = userInput.length;
 
-        // Function to calculate WPM
-        function calculateWPM(typedTextLength, timeInSeconds) {
-            if (timeInSeconds === 0) return 0;
-            // Standard WPM calculation: (characters / 5) / minutes
-            const minutes = timeInSeconds / 60;
-            return Math.round((typedTextLength / 5) / minutes);
-        }
-
-        // Function to calculate accuracy
-        function calculateAccuracy(correctChars, totalChars) {
-            if (totalChars === 0) return 0;
-            return Math.round((correctChars / totalChars) * 100);
-        }
-
-        // Function to flash a stat item
-        function flashStat(elementId) {
-            const element = document.getElementById(elementId);
-            element.classList.add('flash');
-            setTimeout(() => {
-                element.classList.remove('flash');
-            }, 300); // Remove flash class after 300ms
-        }
-
-        // Event listener for typing input
-        typingInput.addEventListener('input', (event) => {
-            const typedText = typingInput.value;
-            const originalText = currentParagraph;
-            const paragraphSpans = paragraphDisplay.children;
-
-            // Start timer on first input
-            if (!isTestStarted && typedText.length > 0) {
-                startTimer();
-                isTestStarted = true;
-            }
-
-            totalCharactersTyped = typedText.length;
-            correctCharacters = 0;
-            let tempCorrectWordsCount = 0;
-            errorCount = 0;
-
-            const typedWords = typedText.split(' ');
-            const originalWords = originalText.split(' ');
-
-            // Iterate through characters for highlighting and accuracy
-            for (let i = 0; i < originalText.length; i++) {
-                const charSpan = paragraphSpans[i];
-                if (i < typedText.length) {
-                    if (typedText[i] === originalText[i]) {
-                        charSpan.classList.remove('incorrect');
-                        charSpan.classList.add('correct');
-                        correctCharacters++;
-                    } else {
-                        charSpan.classList.remove('correct');
-                        charSpan.classList.add('incorrect');
-                        errorCount++;
-                    }
-                } else {
-                    // Characters not yet typed
-                    charSpan.classList.remove('correct', 'incorrect');
+            userWords.forEach((word, i) => {
+                if (i < words.length && word === words[i]) {
+                    correctWords++;
                 }
-                charSpan.classList.remove('current'); // Remove current highlight from previous char
-            }
-
-            // Highlight the current character being typed
-            if (typedText.length < originalText.length) {
-                paragraphSpans[typedText.length].classList.add('current');
-            }
-
-            // Calculate correct words
-            for (let i = 0; i < typedWords.length; i++) {
-                if (originalWords[i] && typedWords[i] === originalWords[i]) {
-                    tempCorrectWordsCount++;
-                } else if (originalWords[i] && typedWords[i].length > originalWords[i].length && typedWords[i].startsWith(originalWords[i])) {
-                    // If typed word is longer but starts with the correct word, it's still an error for the purpose of full word correctness
-                    // do nothing, it's not a fully correct word
-                } else {
-                    // If there's any mismatch, stop counting correct words for this segment
-                    break;
-                }
-            }
-            correctWordsCount = tempCorrectWordsCount;
-
-            // Update displays
-            const elapsedTimeInSeconds = (performance.now() - timerStartTime) / 1000;
-            const newWPM = calculateWPM(correctCharacters, elapsedTimeInSeconds);
-            const newAccuracy = calculateAccuracy(correctCharacters, totalCharactersTyped);
-
-            if (wpmDisplay.textContent !== String(newWPM)) {
-                wpmDisplay.textContent = newWPM;
-                flashStat('wpm-item');
-            }
-            if (accuracyDisplay.textContent !== `${newAccuracy}%`) {
-                accuracyDisplay.textContent = `${newAccuracy}%`;
-                flashStat('accuracy-item');
-            }
-            if (correctWordsDisplay.textContent !== `${correctWordsCount}/${totalWordsInParagraph}`) {
-                correctWordsDisplay.textContent = `${correctWordsCount}/${totalWordsInParagraph}`;
-                flashStat('correct-words-item');
-            }
-
-
-            // Check if test is finished
-            if (typedText.length === originalText.length) {
-                clearInterval(timerInterval);
-                typingInput.disabled = true;
-                messageBox.classList.remove('hidden');
-                messageBox.textContent = 'Test finished! Click Reset Test to try again.';
-                // Final WPM and accuracy calculation based on total correct characters and actual time taken
-                const finalElapsedTime = (performance.now() - timerStartTime) / 1000;
-                wpmDisplay.textContent = calculateWPM(correctCharacters, finalElapsedTime);
-                accuracyDisplay.textContent = `${calculateAccuracy(correctCharacters, totalCharactersTyped)}%`;
-            }
-        });
-
-        // Event listener for reset button
-        resetButton.addEventListener('click', initializeTest);
-
-        // Event listener for difficulty buttons
-        difficultyButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Update active button class
-                difficultyButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                currentDifficulty = button.dataset.difficulty; // Set difficulty from data-difficulty attribute
-                initializeTest(); // Reset test with new difficulty
             });
-        });
 
-        // Event listener for "Generate New Paragraph" button (modified)
-        generateParagraphButton.addEventListener('click', async () => {
-            // Removed topic input and modal logic for direct generation
-            const prompt = "Generate a paragraph for a typing test. It should be coherent, engaging, and approximately 100-150 words long. Focus on clarity and common English vocabulary. Avoid using specific topics or names unless absolutely necessary for coherence.";
-
-            loadingSpinner.classList.add('show'); // Show loading spinner
-            generateParagraphButton.disabled = true; // Disable button during generation
-            messageBox.classList.add('hidden'); // Hide any previous messages
-
-            try {
-                let chatHistory = [];
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                const payload = { contents: chatHistory };
-                const apiKey = ""; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const generatedText = result.candidates[0].content.parts[0].text;
-                    currentParagraph = generatedText; // Set the generated paragraph
-                    initializeTest(); // Reset test with the new paragraph
-                    messageBox.classList.remove('hidden');
-                    messageBox.textContent = 'New paragraph successfully generated!';
-                } else {
-                    messageBox.classList.remove('hidden');
-                    messageBox.textContent = 'Unable to generate paragraph. Please try again.';
-                    console.error('Unexpected response structure from Gemini API:', result);
+            for (let i = 0; i < userInput.length; i++) {
+                if (i < sampleText.length && userInput[i] === sampleText[i]) {
+                    correctChars++;
                 }
-            } catch (error) {
-                messageBox.classList.remove('hidden');
-                messageBox.textContent = 'An error occurred while generating the paragraph.';
-                console.error('Gemini API call error:', error);
-            } finally {
-                loadingSpinner.classList.remove('show'); // Hide loading spinner
-                generateParagraphButton.disabled = false; // Re-enable button
             }
+
+            const wpm = Math.round(correctWords / timeElapsed) || 0;
+            const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 0;
+
+            wpmElement.textContent = wpm;
+            accuracyElement.textContent = `${accuracy}%`;
+            correctWordsElement.textContent = correctWords;
+        }
+
+        function resetTest() {
+            userInputElement.value = '';
+            currentWordIndex = 0;
+            correctWords = 0;
+            totalChars = 0;
+            correctChars = 0;
+            isTyping = false;
+            wpmElement.textContent = '0';
+            accuracyElement.textContent = '0%';
+            correctWordsElement.textContent = '0';
+            totalWordsElement.textContent = '0';
+            progressElement.style.width = '0';
+            setSampleText();
+            userInputElement.focus();
+        }
+
+        userInputElement.addEventListener('input', () => {
+            if (!isTyping) {
+                startTime = Date.now();
+                isTyping = true;
+            }
+
+            displayText();
+            calculateResults();
         });
 
-        // Initial setup when the page loads
-        window.onload = initializeTest;
+        // Prevent copy-paste
+        userInputElement.addEventListener('copy', (e) => e.preventDefault());
+        userInputElement.addEventListener('cut', (e) => e.preventDefault());
+
+        // Initialize
+        setSampleText();
     </script>
 </body>
 </html>
